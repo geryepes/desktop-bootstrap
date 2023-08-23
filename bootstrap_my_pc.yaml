@@ -1,0 +1,139 @@
+---
+- name: "Bootstrap my pc"
+  hosts: localhost
+  connection: local
+  become: true
+  tasks:
+  # goolge-chrome repo config
+    - name: Add google Apt signing key
+      ansible.builtin.apt_key:
+        url: "https://dl.google.com/linux/linux_signing_key.pub"
+        keyring: /etc/apt/trusted.gpg.d/google.gpg
+    - name: Add google-chrome repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
+        state: present
+        filename: google-chrome
+    # dropbox repo config
+    - name: Add dropbox apt key
+      ansible.builtin.apt_key:
+        keyserver: pgp.mit.edu
+        id: 1C61A2656FB57B7E4DE0F4C1FC918B335044912E
+        keyring: /etc/apt/trusted.gpg.d/dropbox.gpg
+    - name: Add dropbox repository
+      ansible.builtin.apt_repository:
+        repo: "deb http://linux.dropbox.com/debian {{ ansible_distribution_release }} main"
+        state: present
+        filename: dropbox
+    # docker repo config
+    - name: Add docker Apt signing key
+      ansible.builtin.apt_key:
+        url: "https://download.docker.com/linux/debian/gpg"
+        keyring: /etc/apt/trusted.gpg.d/docker-archive-keyring.gpg
+    - name: Add docker repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+        state: present
+        filename: docker
+    # kubernetes repo config
+    - name: Add kubernetes Apt signing key
+      ansible.builtin.apt_key:
+        url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+        keyring: /etc/apt/trusted.gpg.d/kubernetes.gpg
+    - name: Add kubernetes repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://apt.kubernetes.io/ kubernetes-xenial main"
+        state: present
+        filename: kubernetes
+    # slack repo config
+    - name: Add slack Apt signing key
+      ansible.builtin.apt_key:
+        url: "https://packagecloud.io/slacktechnologies/slack/gpgkey"
+        validate_certs: false
+        keyring: /etc/apt/trusted.gpg.d/slack.gpg
+    - name: Add slack repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://packagecloud.io/slacktechnologies/slack/debian/ jessie main"
+        state: present
+        filename: slack
+    # sublime repo config
+    - name: Add sublime Apt signing key
+      ansible.builtin.apt_key:
+        url: "https://download.sublimetext.com/sublimehq-pub.gpg"
+        keyring: /etc/apt/trusted.gpg.d/sublime.gpg
+    - name: Add sublime repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://download.sublimetext.com/ apt/stable/"
+        state: present
+        filename: sublime
+    # steam repo config
+    - name: Add steam Apt signing key
+      ansible.builtin.apt_key:
+        url: "https://repo.steampowered.com/steam/archive/stable/steam.gpg"
+        keyring: /etc/apt/trusted.gpg.d/steam.gpg
+    - name: Add steam repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ stable steam"
+        state: present
+        filename: steam
+    # Microsoft repos config
+    - name: Add microsoft Apt signing key
+      ansible.builtin.apt_key:
+        url: "https://packages.microsoft.com/keys/microsoft.asc"
+        keyring: /etc/apt/trusted.gpg.d/microsoft.gpg
+    - name: Add vscode repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://packages.microsoft.com/repos/code stable main"
+        state: present
+        filename: vscode
+    - name: Add azure-cli repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ buster main"
+        state: present
+        filename: azure-cli
+    # Debian packages installation
+    - name: Install packages
+      ansible.builtin.apt:
+        update_cache: true
+        state: present
+        pkg:
+          - apt-transport-https
+          - azure-cli
+          - build-essential
+          - ca-certificates
+          - code
+          - curl
+          - docker-ce
+          - docker-ce-cli
+          - exuberant-ctags
+          - ffmpeg
+          - fonts-powerline
+          - git
+          - git-core
+          - gnome-tweaks
+          - gnupg
+          - google-chrome-stable
+          - gparted
+          - htop
+          - iotop
+          - jq
+          - kubectl
+          - lsb-release
+          - neovim
+          - nethogs
+          - openssh-server
+          - powerline
+          - pylint
+          - python3-dev
+          - python3-flake8
+          - python3-isort
+          - python3-pip
+          - python3-venv
+          - python3-virtualenv
+          - rsync
+          - slack-desktop
+          - sshfs
+          - sublime-text
+          - tmux
+          - vim
+          - zsh
