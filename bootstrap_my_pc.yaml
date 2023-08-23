@@ -45,6 +45,26 @@
         repo: "deb [arch=amd64] https://apt.kubernetes.io/ kubernetes-xenial main"
         state: present
         filename: kubernetes
+    # Helm repo config
+    - name: Add Helm Apt signing key
+      ansible.builtin.apt_key:
+        url: "https://baltocdn.com/helm/signing.asc"
+        keyring: /etc/apt/trusted.gpg.d/helm.gpg
+    - name: Add Helm repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://baltocdn.com/helm/stable/debian/ all main"
+        state: present
+        filename: helm
+    # Terraform repo config
+    - name: Add Terraform Apt signing key
+      ansible.builtin.apt_key:
+        url: "https://apt.releases.hashicorp.com/gpg"
+        keyring: /etc/apt/trusted.gpg.d/terraform.gpg
+    - name: Add Terraform repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+        state: present
+        filename: terraform
     # slack repo config
     - name: Add slack Apt signing key
       ansible.builtin.apt_key:
@@ -98,7 +118,6 @@
         state: present
         pkg:
           - apt-transport-https
-          - azure-cli
           - build-essential
           - ca-certificates
           - code
@@ -114,6 +133,7 @@
           - gnupg
           - google-chrome-stable
           - gparted
+          - helm
           - htop
           - iotop
           - jq
@@ -128,12 +148,14 @@
           - python3-flake8
           - python3-isort
           - python3-pip
+          - python3-jedi
           - python3-venv
           - python3-virtualenv
           - rsync
           - slack-desktop
           - sshfs
           - sublime-text
+          - terraform
           - tmux
           - vim
           - zsh
