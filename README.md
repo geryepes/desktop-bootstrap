@@ -6,7 +6,7 @@
 > ```
 ### Run the ansible playbook
 > ```
-> ansible-playbook bootstrap_my_pc.yaml
+> sudo ansible-playbook bootstrap_my_pc.yaml
 > ```
 ### Sync local files and configs:
 > In the origin:
